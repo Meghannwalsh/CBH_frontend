@@ -5,14 +5,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route
 } from "react-router-dom";
+// import { Router } from "react-router";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
 
 ReactDOM.render(
-  <Router>
+  <Router history={history}>
   <React.StrictMode>
-    <App />
+    <App history={history}/>
   </React.StrictMode>
   </Router>,
   document.getElementById('root')

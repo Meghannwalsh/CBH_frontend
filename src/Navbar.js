@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Input, Menu, Segment } from 'semantic-ui-react'
   import Home from './Home.js'
   import Teams from './Teams.js'
+  import TeamPage from "./TeamPage"
   import {
     BrowserRouter as Router,
     Switch,
@@ -52,8 +53,7 @@ handleFormClick = (form) => {
 }
 
   render() {
-    const { activeItem } = this.state
-
+    console.log(this.props.history)
     return (
       <div>
         <Menu pointing>
@@ -61,14 +61,19 @@ handleFormClick = (form) => {
         <Menu.Item
             as={ Link } name='Home' to='/'
           >
-
         </Menu.Item>
 
           <Menu.Item
             as={ Link } name='Teams' to='/teams'
           >
+        </Menu.Item>
+
+        <Menu.Item
+            as={ Link } name='Login'
+          >
 
         </Menu.Item>
+
           <Menu.Menu position='right'>
             <Menu.Item>
               <Input icon='search' placeholder='Search Teams...' />
@@ -78,16 +83,21 @@ handleFormClick = (form) => {
 
         <Segment>
         <Switch>
-          <Route path="/teams">
+          <Route exact path="/teams">
             {this.state.teams
             ?
-            <Teams handleFormClick={this.handleFormClick} selectedForm={this.state.selectedForm} admin_items={this.state.admin_items} forms={this.state.forms} teams={this.state.teams} selectedTeam={this.state.selectedTeam} handleSelectedTeam={this.handleSelectedTeam}/>
+            <Teams history={this.props.history} handleFormClick={this.handleFormClick} selectedForm={this.state.selectedForm} admin_items={this.state.admin_items} forms={this.state.forms} teams={this.state.teams} selectedTeam={this.state.selectedTeam} handleSelectedTeam={this.handleSelectedTeam}/>
             :
             null}
           </Route>
           <Route path="/">
-            <Home />
+            <Home history={this.props.history}/>
           </Route>
+
+          <Route exact path="/teampage/:id">
+              <TeamPage />
+          </Route>
+
         </Switch>
         </Segment>
       </div>

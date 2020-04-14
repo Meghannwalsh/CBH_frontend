@@ -7,12 +7,12 @@ class Forms extends React.Component {
 
 
     render (){
-        console.log("made it to Form Page", this.props.admin_items)
+        // console.log("made it to Form Page", this.props.admin_items)
 
         return (
 
             <div >
-                {this.props.selectedForm !== null 
+                {this.props.selectedForm
                     ?
                     <div>
                     <h1>{this.props.selectedForm.name}</h1>
