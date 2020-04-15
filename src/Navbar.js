@@ -7,17 +7,30 @@ import { Input, Menu, Segment } from 'semantic-ui-react'
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    withRouter
   } from "react-router-dom";
 
-export default class NavBar extends Component {
+class NavBar extends Component {
 
   state = {
     teams: [],
     forms: [],
     admin_items: [],
-    selectedForm: null
+    selectedForm: null,
+    selectedTeam: null
   }
+
+
+  handleSelectedTeam = (team) => {
+    console.log("handle selected team", team)
+    this.setState({
+      selectedTeam: team
+    },  this.props.history.push('/teampage') )
+
+  //  return <Redirect to={`/teampage`} />
+  // //  this.props.history.push(`/teampage`)
+}
 
 componentDidMount(){
   fetch('http://localhost:3000/teams')
@@ -53,7 +66,7 @@ handleFormClick = (form) => {
 }
 
   render() {
-    console.log(this.props.history)
+    // console.log(this.props.history)
     return (
       <div>
         <Menu pointing>
@@ -83,19 +96,19 @@ handleFormClick = (form) => {
 
         <Segment>
         <Switch>
-          <Route exact path="/teams">
+          <Route exact path="/teams"> 
             {this.state.teams
             ?
-            <Teams history={this.props.history} handleFormClick={this.handleFormClick} selectedForm={this.state.selectedForm} admin_items={this.state.admin_items} forms={this.state.forms} teams={this.state.teams} selectedTeam={this.state.selectedTeam} handleSelectedTeam={this.handleSelectedTeam}/>
+            <Teams handleSelectedTeam={this.handleSelectedTeam} selectedTeam={this.state.selectedTeam} handleFormClick={this.handleFormClick} selectedForm={this.state.selectedForm} admin_items={this.state.admin_items} forms={this.state.forms} teams={this.state.teams} selectedTeam={this.state.selectedTeam} handleSelectedTeam={this.handleSelectedTeam}/>
             :
             null}
           </Route>
-          <Route path="/">
-            <Home history={this.props.history}/>
+          <Route exact path="/">
+            <Home />
           </Route>
 
-          <Route exact path="/teampage/:id">
-              <TeamPage />
+          <Route exact path="/teampage">
+              <TeamPage  handleSelectedTeam={this.handleSelectedTeam} selectedTeam={this.state.selectedTeam} handleFormClick={this.handleFormClick} selectedForm={this.state.selectedForm} admin_items={this.state.admin_items} forms={this.state.forms} teams={this.state.teams} selectedTeam={this.state.selectedTeam} handleSelectedTeam={this.handleSelectedTeam}/>
           </Route>
 
         </Switch>
@@ -105,6 +118,7 @@ handleFormClick = (form) => {
   }
 }
 
+export default withRouter(NavBar)
 
 
 
